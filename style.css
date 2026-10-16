@@ -1,0 +1,208 @@
+/* Section 1: RESET (Part A, Part B universal selector, Part C box-sizing) */
+
+/* Universal selector: simple reset + border-box sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*SECTION 2: BASE / TYPOGRAPHY (type selectors, grouping, colors, units) */
+
+/* Type selector: page-wide font, background and text alignment */
+body {
+  font-family: Arial, Helvetica, sans-serif;  /* font-family */
+  font-size: 1rem;                            /* rem unit */
+  background-color: #f6e1b5;                  /* color as HEX */
+  color: #3c1b1f;                             /* color as NAME */
+  line-height: 1.5;
+}
+
+/* Grouping selector: h1 and h2 share the same font weight */
+h1, h2 {
+  font-weight: bold;                          /* font-weight */
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.5em;                           /* em unit */
+  margin-bottom: 10px;
+  color: rgb(60, 27, 31);                     /* color as RGB */
+}
+
+/* Pseudo-element: add a small symbol before every h2 */
+h2::before {
+  content: "\2605  ";                         /* a star symbol */
+  color: #b21e4b;
+}
+
+/* CASCADE DEMONSTRATION (Part A)
+
+  Both rules target the <p class="intro"> element: the type selector (p) 
+  sets the color to dimgray, while the class selector (.intro) changes it to 
+  dark blue. Winner: .intro (dark blue). Why: Because a class selector has higher
+  specificity than a simple type selector, it wins automatically—even if the type 
+  selector is written lower down in the file. (Source order only breaks ties when 
+  both rules share the exact same specificity level). */
+.intro {
+  color: #b21e4b;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+p {
+  color: #3c1b1f;
+}
+
+/* Pseudo-element: make the first letter of the intro big */
+.intro::first-letter {
+  font-size: 1.8rem;
+  color: #3c1b1f;
+}
+
+/* SECTION 3: LAYOUT (header, footer, cards, box model) */
+
+/* Center the text in header and footer */
+header, footer {
+  text-align: center;                         /* text-align */
+  padding: 24px 0;
+  background-color: #3c1b1f;
+  color: #f6e1b5;
+}
+
+main {
+  padding: 30px 0;
+}
+
+/* --- BOX MODEL CALCULATION (Part C) ---
+   .card width = 500px, padding = 20px (left + right = 40px),
+   border = 3px (left + right = 6px).
+   Because of box-sizing: border-box, the width includes padding + border,
+   so the total rendered width of one .card = 500px.
+   (Content area = 500 - 40 - 6 = 454px.) */
+.card {
+  width: 500px;                               /* fixed width */
+  padding: 20px;
+  border: 3px solid #e2bf81;                  /* width, style, color in one line */
+  border-radius: 12px;
+  background-color: #f6e1b5;
+  margin: 0 auto;                             /* center horizontally */
+  margin-bottom: 24px;                        /* space between cards */
+}
+
+/* Descendant selector: every <p> inside a .card */
+.card p {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: #3c1b1f;
+}
+
+/* ID selector: make the About card stand out */
+#about {
+  border-color: #b21e4b;
+  background-color: rgba(226, 191, 129, 0.4); /* color as RGBA */
+  position: relative;                         /* parent for the badge */
+}
+
+/* Positioning: badge placed in the top-right corner of #about */
+#about::after {
+  content: "New!";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #b21e4b;
+  color: #f6e1b5;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* SECTION 4: COMPONENTS (nav, skills, visibility, scroll box) */
+
+nav {
+  margin-top: 12px;
+}
+
+/* inline-block lets width/height-style spacing (padding) work on links */
+nav a {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 4px;
+  background-color: #b21e4b;
+  color: #f6e1b5;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+/* Pseudo-class: hover effect on nav links */
+nav a:hover {
+  background-color: #e2bf81;
+  color: #3c1b1f;
+}
+
+/* Flex container: lays out the skills in a row */
+.skills-list {
+  display: flex;
+  gap: 12px;                                  /* space between items */
+  justify-content: center;                    /* center items in the row */
+  list-style: none;
+}
+
+/* Child selector: only <li> directly inside .skills-list, styled like tags */
+.skills-list > li {
+  background-color: #e2bf81;
+  color: #3c1b1f;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* HIDING (Part D)
+
+   display: none removes the element completely, so it takes NO space
+   and the paragraphs below move up (no gap).
+   visibility: hidden makes the element invisible, but it still takes up
+   its space, so an empty gap is left where the paragraph used to be. */
+
+.hide-none {
+  display: none;
+}
+
+.hide-visibility {
+  visibility: hidden;
+}
+
+/* Fixed height + overflow: auto adds a scrollbar when content is too long */
+.scroll-box {
+  height: 120px;
+  overflow: auto;
+}
+
+/* Footer text size */
+footer p {
+  color: #f6e1b5;
+  font-size: 0.85rem;
+}
+
+/*  REFLECTION QUESTIONS
+
+   1. In my two conflicting rules (p { color: dimgray } and
+        .intro { color: #1a5276 }), the .intro rule won. the reasom is
+        a class selector ismuch more stronger than a type selector and 
+        class have higher priority than a type selectors.
+        Order only decides the winner when both selectors have the same
+        specificity, so the later p it couldn't win because its priority was too low.
+
+   2. If box-sizing were content box, the width (500px) would only be the
+      content area. Computation: 500 (content) + 20 + 20 (padding)
+      + 3 + 3 (border) = 546px rendered width.
+
+   3. I would choose visibility:  hidden if i want to hide somthing but
+      keep the layout still the same, so other elements do not jump around.
+     
+*/
